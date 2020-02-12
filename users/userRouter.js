@@ -12,12 +12,12 @@ router.post("/", validateUser, (req, res) => {
 
 router.post("/:id/posts", validatePost, (req, res) => {
   // do your magic!
-  res.status(200).json(req.posts);
+  res.status(200).json(req.userposts);
 });
 
 router.get("/", (req, res) => {
   // do your magic!
-  Users.get(req.body)
+  Users.get()
     .then(user => {
       res.status(200).json(user);
     })
@@ -109,10 +109,10 @@ function validatePost(req, res, next) {
       !users & console.log(users)
         ? res.status(400).json({ error: "no user" })
         : !user.text
-        ? res.status(400).json({ error: "missing name" })
-        : (req.userpost = users) & next()
+        ? res.status(400).json({ message: "missing post data" })
+        : (req.userpost = users) & console.log(users, "TEST") & next()
     )
-    .catch(err => res.status(500).json(err.message));
+    .catch(err => res.status(500).json({ error: "error" }));
 }
 
 module.exports = router;
