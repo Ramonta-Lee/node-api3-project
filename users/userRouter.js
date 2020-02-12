@@ -12,19 +12,7 @@ router.post("/", validateUser, (req, res) => {
 
 router.post("/:id/posts", validatePost, (req, res) => {
   // do your magic!
-  const { id } = req.params;
-  Users.getById(id)
-    .then(ids => {
-      if (ids) {
-        res.status(200).json(ids);
-      } else {
-        res.status(400).json({ message: "Invalid user auth" });
-      }
-    })
-    .catch(error => {
-      console.log(error);
-      res.status(500).json({ error: "Error writing Post to server." });
-    });
+  res.status(200).json(req.posts);
 });
 
 router.get("/", (req, res) => {
@@ -115,8 +103,8 @@ function validateUser(req, res, next) {
 function validatePost(req, res, next) {
   // do your magic!
   const { id } = req.params;
-  const posts = { ...req.body, user_id: id };
-  Posts.insert(posts)
+  const user = { ...req.body, user_id: id };
+  Posts.insert(user)
     .then(users =>
       !users & console.log(users)
         ? res.status(400).json({ error: "no user" })
