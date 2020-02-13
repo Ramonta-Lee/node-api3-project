@@ -21,7 +21,6 @@ router.post("/:id/posts", validatePost, (req, res) => {
 
 // GET Requests:
 
-
 // This gets a list of users and has a name and ID property
 router.get("/", (req, res) => {
   // do your magic!
@@ -34,7 +33,6 @@ router.get("/", (req, res) => {
       res.status(500).json({ message: "Error retrieving the Users." });
     });
 });
-
 
 // This gets a user by their ID after validating that the ID exists.
 router.get("/:id", validateUserId, (req, res) => {
@@ -77,25 +75,20 @@ router.delete("/:id", validateUserId, (req, res) => {
 
 router.put("/:id", validateUserId, (req, res) => {
   // do your magic!
-  const {id} = req.params;
-  const changes = req.body
-  if(!changes.name) {
-    res.status(400).json({message: "Need to update the user name."})
+  const { id } = req.params;
+  const changes = req.body;
+  if (!changes.name) {
+    res.status(400).json({ message: "Need to update the user name." });
+  } else {
+    Users.update(id, changes)
+      .then(update => {
+        res.status(200).json(update);
+      })
+      .catch(error => {
+        console.log(error);
+        res.status(500).json({ error: "Failed to update User name" });
+      });
   }
-  else {
-    Users.update(id, changes).then(update => {
-      if (update){
-        res.status(200).json(update)
-      }
-      else {
-        res.status(404).json({message: "The user with the specified ID does not exist."})
-      }
-    }).catch(error => {
-      console.log(error);
-      res.status(500).json({error: "Failed to update User name"})
-    })
-  }
-  
 });
 
 //custom middleware
