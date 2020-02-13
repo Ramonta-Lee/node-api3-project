@@ -34,6 +34,8 @@ router.delete("/:id", validatePostId, (req, res) => {
     });
 });
 
+
+// This updates a post for a specific user by the PostID number not the user ID
 router.put("/:id", validatePostId, (req, res) => {
   // do your magic!
   const { id } = req.params;

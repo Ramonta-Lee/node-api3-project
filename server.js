@@ -9,6 +9,7 @@ const server = express();
 
 // Middleware - Global
 server.use(express.json()); // built-in Middleware
+// server.use(logger); This would make logger GLOBAL
 server.use(helmet());
 
 // routes - endpoints
